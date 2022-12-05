@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Card;
 use App\Http\Resources\CardResource;
@@ -60,9 +61,12 @@ class CardsController extends Controller
         return new CardResource($card);
     }
 
-    public function delete (card $card)
+    public function delete(card $card)
     {
         $card->delete();
-        return response()->json(['success'=>true]); 
+
+        return response()->json
+        (['success' => true,
+        ]); 
     }
 }
