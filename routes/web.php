@@ -16,12 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/todo-lists',[TodoListsController::class, 'index'])
-    ->name('todo-lists.index');
-
-Route::get('/todo-lists/{todoList}',[TodoListsController::class, 'get'])
-    ->name('todo-lists.get');
-
-Route::post('/todo-lists', [TodoListsController::class, 'store'])
-    ->name('todo-lists.store');

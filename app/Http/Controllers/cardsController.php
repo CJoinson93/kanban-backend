@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use App\Models\Card;
+use App\Http\Resources\CardResource;
+
 
 class CardsController extends Controller
 {
@@ -21,7 +25,7 @@ class CardsController extends Controller
             'todo_list_id' => 'required|exists:todo_lists,id',
         ]);
 
-        $card = new card;
+        $card = new Card;
         $card -> title = $request->input('title');
         $card -> description = $request -> input ('description');
         $card -> todo_list_id = $request -> input ('todo_list_id');
@@ -54,5 +58,11 @@ class CardsController extends Controller
         $card->save();
 
         return new CardResource($card);
+    }
+
+    public function delete (card $card)
+    {
+        $card->delete();
+        return response()->json(['success'=>true]); 
     }
 }

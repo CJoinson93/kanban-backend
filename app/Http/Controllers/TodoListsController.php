@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateTodoListRequest;
 use App\Models\TodoList;
 use Illuminate\Http\Request;
+use App\Http\Resources\TodoListResource;
 
 class TodoListsController extends Controller
 {
@@ -12,7 +13,6 @@ class TodoListsController extends Controller
     {
         $todoLists = TodoList::orderBy('list_order')
             ->get();
-
             return TodoListResource::collection($todoLists);
     }
 
@@ -34,13 +34,13 @@ class TodoListsController extends Controller
         $todoList->list_order = $count + 1;
         $todoList->save();
 
-        return $todoList;
+        return new TodoListResource($todoList);
     }
 
     public function update (Request $request, TodoList $todoList)
     {
         $request->validate([
-            'title' => 'requred|min:3|max:255',
+            'title' => 'required|min:3|max:255',
         ]);
 
         $todoList->title = $request->input('title');
@@ -50,6 +50,15 @@ class TodoListsController extends Controller
 
         $todoList->save();
 
-        return $todoList;
+        return new TodoListResource($todoList);
+    }
+
+    public function delete(TodoList $todoList)
+    {
+        $todoList->delete();
+
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }
